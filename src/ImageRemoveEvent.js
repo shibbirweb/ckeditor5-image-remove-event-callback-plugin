@@ -34,38 +34,52 @@ export default class ImageRemoveEvent {
 
             let hasNoImageRemoved = true
 
-            changes.forEach(change => {
+            // check any image remove or not
+            for (let i = 0; i < changes.length; i++){
+                const change = changes[i]
+                // if image remove exists
                 if (change && change.type === 'remove' && change.name === 'image') {
                     hasNoImageRemoved = false
+                    break
                 }
-            })
+            }
 
+            // if not image remove stop execution
             if (hasNoImageRemoved) {
                 return;
             }
 
-            const removedImagesChanges = changes.filter(change => {
-                return (change.type === 'insert' && change.name === 'image')
+            // get any removed image node
+            const removedFirstImageNode = changes.find(change => (change.type === 'insert' && change.name === 'image'))
+
+            // get root of removed image node
+            const root = removedFirstImageNode.position.root;
+
+            // get the child count of root
+            const childCount = root.childCount
+
+            // get all removed child nodes
+            const childNodes = [];
+
+            for (let i = 0; i < childCount; i++){
+                childNodes.push(root.getChild(i))
+            }
+
+            // get all removed images node
+            const removedImageNodes = childNodes.filter(node => {
+                return (node.name === 'image')
             })
 
+            // let removed images src
             const removedImagesSrc = [];
-            const removedImagesNode = [];
 
-            removedImagesChanges.forEach(change => {
-                // Root Element
-                const root = change.position.root
-                // Removed node
-                const removedImageNode = root.getChild(0)
-                // Removed image src
-                const removedImageSrc = removedImageNode.getAttribute('src')
-                // add into nodes
-                removedImagesNode.push(removedImageNode)
-                // add into srcs
-                removedImagesSrc.push(removedImageSrc)
+            removedImageNodes.forEach(node => {
+                const src = node.getAttribute('src')
+                removedImagesSrc.push(src)
             })
 
             // Call the callback
-            return callback(removedImagesSrc, removedImagesNode)
+            return callback(removedImagesSrc, removedImageNodes)
         })
     }
 }
