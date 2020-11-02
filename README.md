@@ -31,11 +31,11 @@ Use in CKEditor 5 initialization
 ClassicEditor.create(document.querySelector('#editor'), {
     //... 
     imageRemoveEvent: {
-        callback: (imageSrc, nodeObject) => {
-            //nodeObject api: https://ckeditor.com/docs/ckeditor5/latest/api/module_engine_model_node-Node.html
-            // ... do your staff
-            console.log('callback invoked', imageSrc, nodeObject)
-            
+        callback: (imagesSrc, nodeObjects) => {
+            // note: imagesSrc is array of src & nodeObjects is array of nodeObject
+            // node object api: https://ckeditor.com/docs/ckeditor5/latest/api/module_engine_model_node-Node.html
+
+            console.log('callback called', imagesSrc, nodeObjects)
         }
     },
     // ...

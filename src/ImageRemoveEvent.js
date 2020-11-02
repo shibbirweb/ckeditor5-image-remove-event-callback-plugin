@@ -28,29 +28,44 @@ export default class ImageRemoveEvent {
                 includeChangesInGraveyard: true
             });
 
-            if (!changes || !changes[1]) {
+            if (changes.length === 0) {
                 return;
             }
 
-            const lastChange = changes[1]
+            let hasNoImageRemoved = true
 
-            if (lastChange && (lastChange.name && lastChange.name === 'image') && (lastChange.type && lastChange.type === 'remove')) {
-                // The graveyard tree root
-                const previousImageGraveyard = changes[0]
-
-                if (!previousImageGraveyard) {
-                    return;
+            changes.forEach(change => {
+                if (change && change.type === 'remove' && change.name === 'image') {
+                    hasNoImageRemoved = false
                 }
+            })
 
+            if (hasNoImageRemoved) {
+                return;
+            }
+
+            const removedImagesChanges = changes.filter(change => {
+                return (change.type === 'insert' && change.name === 'image')
+            })
+
+            const removedImagesSrc = [];
+            const removedImagesNode = [];
+
+            removedImagesChanges.forEach(change => {
                 // Root Element
-                const root = previousImageGraveyard.position.root
+                const root = change.position.root
                 // Removed node
                 const removedImageNode = root.getChild(0)
                 // Removed image src
                 const removedImageSrc = removedImageNode.getAttribute('src')
-                // Call the callback
-                return callback(removedImageSrc, removedImageNode)
-            }
+                // add into nodes
+                removedImagesNode.push(removedImageNode)
+                // add into srcs
+                removedImagesSrc.push(removedImageSrc)
+            })
+
+            // Call the callback
+            return callback(removedImagesSrc, removedImagesNode)
         })
     }
 }
