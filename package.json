@@ -1,0 +1,29 @@
+{
+  "name": "ckeditor5-image-remove-event-callback-plugin",
+  "version": "1.0.0",
+  "description": "CKEditor 5 image remove event handler plugin",
+  "dependencies": {
+    "@ckeditor/ckeditor5-core": "*",
+    "@ckeditor/ckeditor5-image": "*"
+  },
+  "main": "src/ImageRemoveEventCallbackPlugin.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shibbirweb/ckeditor5-image-remove-event-callback-plugin.git"
+  },
+  "files": [
+    "src"
+  ],
+  "keywords": [
+    "CKEditor 5",
+    "image",
+    "image remove event"
+  ],
+  "author": "MD. Shibbir Ahmed <shibbirweb@gmail.com> (http://shibbir.me/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shibbirweb/ckeditor5-image-remove-event-callback-plugin/issues",
+    "email": "shibbirweb@gmail.com"
+  },
+  "homepage": "https://github.com/shibbirweb/ckeditor5-image-remove-event-callback-plugin#readme"
+}
