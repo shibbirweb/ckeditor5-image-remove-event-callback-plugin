@@ -16,8 +16,8 @@ export default class ImageRemoveEvent {
         const editor = this.editor
         let model = editor.model
 
-        model.document.on('change:data', () => {
-            const differ = model.document.differ
+        model.document.on('change:data', (event) => {
+            const differ = event.source.differ
 
             // if no difference
             if (differ.isEmpty) {
@@ -49,33 +49,18 @@ export default class ImageRemoveEvent {
                 return;
             }
 
-            // get any removed image node
-            const removedFirstImageNode = changes.find(change => (change.type === 'insert' && change.name === 'image'))
+            // get removed nodes
+            const removedNodes = changes.filter(change => (change.type === 'insert' && change.name === 'image'))
 
-            // get root of removed image node
-            const root = removedFirstImageNode.position.root;
-
-            // get the child count of root
-            const childCount = root.childCount
-
-            // get all removed child nodes
-            const childNodes = [];
-
-            for (let i = 0; i < childCount; i++){
-                childNodes.push(root.getChild(i))
-            }
-
-            // get all removed images node
-            const removedImageNodes = childNodes.filter(node => {
-                return (node.name === 'image')
-            })
-
-            // let removed images src
+            // removed images src
             const removedImagesSrc = [];
+            // removed image nodes
+            const removedImageNodes = []
 
-            removedImageNodes.forEach(node => {
-                const src = node.getAttribute('src')
-                removedImagesSrc.push(src)
+            removedNodes.forEach(node => {
+                const removedNode = node.position.nodeAfter
+                removedImageNodes.push(removedNode)
+                removedImagesSrc.push(removedNode.getAttribute('src'))
             })
 
             // Call the callback
