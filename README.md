@@ -1,3 +1,5 @@
+[![npm](https://img.shields.io/npm/v/ckeditor5-image-remove-event-callback-plugin.svg)](https://www.npmjs.com/package/ckeditor5-image-remove-event-callback-plugin) [![Downloads](https://img.shields.io/npm/dt/ckeditor5-image-remove-event-callback-plugin.svg)](https://www.npmjs.com/package/ckeditor5-image-remove-event-callback-plugin)
+
 # CKEditor 5 Image Remove Event Callback Plugin
 
 Handle image remove event callback from CKEditor 5
