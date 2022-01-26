@@ -2,7 +2,7 @@
  * @author MD. Shibbir Ahmed <shibbirweb@gmail.com> (http://shibbir.me/)
  *
  */
-export default class ImageRemoveEvent {
+ export default class ImageRemoveEvent {
 
     constructor(editor, configuration) {
         this.editor = editor
@@ -38,7 +38,7 @@ export default class ImageRemoveEvent {
             for (let i = 0; i < changes.length; i++){
                 const change = changes[i]
                 // if image remove exists
-                if (change && change.type === 'remove' && change.name === 'image') {
+                if (change && change.type === 'remove' && (change.name === 'image' || change.name === 'imageInline')) {
                     hasNoImageRemoved = false
                     break
                 }
@@ -50,7 +50,7 @@ export default class ImageRemoveEvent {
             }
 
             // get removed nodes
-            const removedNodes = changes.filter(change => (change.type === 'insert' && change.name === 'image'))
+            const removedNodes = changes.filter(change => (change.type === 'insert' && (change.name === 'image' || change.name === 'imageInline')))
 
             // removed images src
             const removedImagesSrc = [];
