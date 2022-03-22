@@ -9,7 +9,7 @@ Handle image remove event callback from CKEditor 5
 Install package
 
 ```
-npm install ckeditor5-image-remove-event-callback-plugin
+npm install ckeditor5-image-remove-event-callback-plugin -D
 ```
 
 
@@ -33,6 +33,8 @@ Use in CKEditor 5 initialization
 ClassicEditor.create(document.querySelector('#editor'), {
     //... 
     imageRemoveEvent: {
+        additionalElementTypes: null, // Add additional element types to invoke callback events. Default is null and it's not required. Already included ['image','imageBlock','inlineImage']
+        // additionalElementTypes: ['image', 'imageBlock', 'inlineImage'], // Demo to write additional element types
         callback: (imagesSrc, nodeObjects) => {
             // note: imagesSrc is array of src & nodeObjects is array of nodeObject
             // node object api: https://ckeditor.com/docs/ckeditor5/latest/api/module_engine_model_node-Node.html
@@ -44,3 +46,4 @@ ClassicEditor.create(document.querySelector('#editor'), {
 });
 ```
 
+Note: There is a demo project for using this plugin in demo folder.
