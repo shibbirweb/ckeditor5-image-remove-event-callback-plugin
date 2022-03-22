@@ -2,7 +2,7 @@
  * @author MD. Shibbir Ahmed <shibbirweb@gmail.com> (http://shibbir.me/)
  *
  */
- export default class ImageRemoveEvent {
+export default class ImageRemoveEvent {
 
     constructor(editor, configuration) {
         this.editor = editor
@@ -12,12 +12,27 @@
     }
 
     emitCallback() {
-        const { callback } = this.configuration
+        const {callback, additionalElementTypes} = this.configuration
         const editor = this.editor
         let model = editor.model
 
+        const defaultElementTypes = [
+            'image',
+            'imageBlock',
+            'inlineImage',
+        ]
+
+        let elementTypes = [
+            ...defaultElementTypes,
+        ]
+
+        if (Array.isArray(additionalElementTypes)) {
+            elementTypes = elementTypes.concat(additionalElementTypes)
+        }
+
         model.document.on('change:data', (event) => {
             const differ = event.source.differ
+
 
             // if no difference
             if (differ.isEmpty) {
@@ -35,10 +50,10 @@
             let hasNoImageRemoved = true
 
             // check any image remove or not
-            for (let i = 0; i < changes.length; i++){
+            for (let i = 0; i < changes.length; i++) {
                 const change = changes[i]
                 // if image remove exists
-                if (change && change.type === 'remove' && (change.name === 'image' || change.name === 'imageInline')) {
+                if (change && change.type === 'remove' && elementTypes.includes(change.name)) {
                     hasNoImageRemoved = false
                     break
                 }
@@ -50,7 +65,7 @@
             }
 
             // get removed nodes
-            const removedNodes = changes.filter(change => (change.type === 'insert' && (change.name === 'image' || change.name === 'imageInline')))
+            const removedNodes = changes.filter(change => (change.type === 'insert' && elementTypes.includes(change.name)))
 
             // removed images src
             const removedImagesSrc = [];
@@ -63,7 +78,7 @@
                 removedImagesSrc.push(removedNode.getAttribute('src'))
             })
 
-            // Call the callback
+            // invoke the callback
             return callback(removedImagesSrc, removedImageNodes)
         })
     }

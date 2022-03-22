@@ -25,12 +25,18 @@ export default class ImageRemoveEventCallbackPlugin extends Plugin {
             console.warn('CKEditor5 Image Remove Event Plugin: Configuration is not valid.')
         }
 
-        const {callback} = configuration
+        const {callback, additionalElementTypes} = configuration
 
         // validate event callback
         if (!callback || {}.toString.call(callback) !== '[object Function]') {
             console.info(`CKEditor5 Image Remove Event Plugin: Configuration callback property should be a function. See documentation at: ${documentationURL}`)
             console.error('CKEditor5 Image Remove Event Plugin: Callback property is not valid function.')
+        }
+
+        // validate additional image element names
+        if(additionalElementTypes && !Array.isArray(additionalElementTypes)){
+            console.info(`CKEditor5 Image Remove Event Plugin: Configuration 'additionalElementTypes' property should be nullable or an array. See documentation at: ${documentationURL}`)
+            console.error(`CKEditor5 Image Remove Event Plugin: 'additionalElementTypes' property is not valid function.`)
         }
 
         return new ImageRemoveEvent(editor, configuration)
