@@ -47,3 +47,5 @@ ClassicEditor.create(document.querySelector('#editor'), {
 ```
 
 Note: There is a demo project for using this plugin in demo folder.
+
+NB: If you want to contribute on this project, you are always welcome. 
