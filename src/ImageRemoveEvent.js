@@ -20,6 +20,7 @@ export default class ImageRemoveEvent {
             'image',
             'imageBlock',
             'inlineImage',
+            'imageInline',
         ]
 
         let elementTypes = [
